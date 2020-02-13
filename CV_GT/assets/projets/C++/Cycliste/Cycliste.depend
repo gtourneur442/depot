@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1580720372 source:c:\users\guillaume\documents\cv_gt _2\assets\projets\c++\cyclist\cyclist2\cycliste.cpp
+	"cycliste.h"
+
+1580745888 c:\users\guillaume\documents\cv_gt _2\assets\projets\c++\cyclist\cyclist2\cycliste.h
+	<string>
+	<iostream>
+	<time.h>
+	<cmath>
+	<cstdlib>
+
