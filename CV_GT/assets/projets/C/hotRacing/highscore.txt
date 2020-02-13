@@ -1,0 +1,5 @@
+Scores : 
+oscar : 4
+hector : 3
+max : 3
+
