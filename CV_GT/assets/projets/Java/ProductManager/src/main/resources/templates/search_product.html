@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymleaf-extras-springsecurity5">
+	<head>
+		<meta charset="utf-8">
+		<title>Product Manager</title>
+		<script type="text/javascript">
+			function clearSearch() {
+				window.location = "[[@{/search}]]";
+			}
+		</script>
+	</head>
+	<body>
+		<div align="center">
+			<div sec:authorize="isAuthenticated()">
+				Welcome <b><span sec:authentication="name">Username</span></b>
+				&nbsp;
+				<i><span sec:authentication="principal.authorities">Roles</span></i>
+			</div>
+			<!--<h3 th:inline="text">Bienvenue [[${#httpServletRequest.remoteUser}]]</h3>-->
+			<br>
+			<!--<div sec:authorize="hasRole('USER')">
+				<h3 th:inline="text">Bienvenue [[${#httpServletRequest.remoteUser}]]</h3>
+			</div>-->
+			<form th:action="@{/logout}" method="post">
+				<input type="submit" value="Déconnexion">
+			</form>
+			<br>
+			<h1>Product List</h1>
+			<div sec:authorize="hasAnyAuthority('CREATOR', 'ADMIN')">
+				<a href="/new">Create New Product</a>
+			</div>
+			<br><br>
+			<form th:action="@{/search}">
+				<label>Filter : </label>
+				<input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required>
+				&nbsp;
+				<input type="submit" value="Search">
+				&nbsp;
+				<input type="button" value="Clear" id="btnClear" onclick="clearSearch()">
+			</form>
+			<br><br>
+			<table border="1" cellpadding="10">
+				<thead>
+					<tr>
+						<th>Product ID</th>
+						<th>Name</th>
+						<th>Brand</th>
+						<th>Made In</th>
+						<th>Price</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product : ${listProducts}">
+						<td th:text="${product.id}">Product ID</td>
+						<td th:text="${product.name}">Name</td>
+						<td th:text="${product.brand}">Brand</td>
+						<td th:text="${product.madein}">Made In</td>
+						<td th:text="${product.price}">Price</td>
+						<td>
+							<div sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')">
+								<a th:href="@{'/edit/' + ${product.id}}">Edit</a>
+							</div>
+							&nbsp;&nbsp;&nbsp;
+							<div sec:authorize="hasAuthority('ADMIN')">
+								<a th:href="@{'/delete/' + ${product.id}}">Delete</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
